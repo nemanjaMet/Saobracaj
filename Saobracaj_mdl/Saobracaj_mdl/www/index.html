@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+    <!---->
+    <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: http://127.0.0.1:8081/ http://127.0.0.1:8081/process_post gap: http://127.0.0.1:8081/process_post https://ssl.gstatic.com https://fonts.gstatic.com/ https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ https://csi.gstatic.com/ 'unsafe-eval'; script-src 'self'  http://127.0.0.1:8081/socket.io https://maps.googleapis.com https://maps.gstatic.com; style-src https://fonts.googleapis.com/ https://fonts.gstatic.com/ 'self' 'unsafe-inline'; media-src *; ">-->
+    <meta http-equiv="Content-Security-Policy" content=" default-src *; style-src 'self' 'unsafe-inline'; script-src * 'self' 'unsafe-inline' 'unsafe-eval'; connect-src * ;">
+    <access origin="*" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
+    <!--<link rel="stylesheet" type="text/css" href="css/index.css">-->
+    <title>Saobracaj</title>
+
+    <!----<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+    <link rel="stylesheet" href="bower_components/material-design-lite/material.min.css">
+    <script src="bower_components/material-design-lite/material.min.js"></script>
+    <!--<link rel="stylesheet" href="bower_components/material-design-lite/matIcon.css">-->
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+
+    <link rel="stylesheet" type="text/css" href="bower_components/pikabu/src/css/pikabu.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/pikabu/src/css/pikabu-theme.css">
+    <link rel="stylesheet" type="text/css" href="css/HamburgerStyle.css">
+    <link rel="stylesheet" type="text/css" href="css/newuser.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+<body>
+
+    <!-- the viewport -->
+    <div class="pikabu-viewport">
+        <!-- the left sidebar -->
+        <div class="pikabu-sidebar pikabu-sidebar--left leftLayout">
+            <!-- left sidebar content -->
+            <h2 id="usernameHeader">Username</h2>
+
+            <button type="button" class="hamburgerButtons" id="homeBtn">Home</button>
+            <button type="button" class="hamburgerButtons" id="mapsBtn">Maps</button>
+            <button type="button" class="hamburgerButtons" id="statisticsBtn">Guide</button>
+            <button type="button" class="hamburgerButtons" id="aboutBtn">About</button>
+            <button type="button" class="hamburgerButtons" id="logOut">logOut</button>
+        </div>
+        <!-- the main page content -->
+        <div class="pikabu-container">
+            <!-- Overlay is needed to have a big click area to close the sidebars -->
+            <div class="pikabu-overlay"></div>
+            <header>
+                <a class="pikabu-nav-toggle" data-role="left">Left Menu</a>
+                <h1>Saobracaj</h1>
+            </header>
+            <section>
+                <!-- Body content goes in here -->
+
+                <div class="twoDivs">
+                    <div id="home">
+                        <button type="button" class="homeButtons" id="radarBtn">Radar</button>
+                        <button type="button" class="homeButtons" id="nezgodeBtn">Nezgode</button>
+                        <button type="button" class="homeButtons" id="rnpBtn">Radovi na putu</button>
+                        <button type="button" class="homeButtons" id="zastojiBtn">Zastoji/guzve</button>
+                        <button type="button" class="homeButtons" id="pnpBtn">Pomoc na putu</button>
+                        <button type="button" class="homeButtons" id="ostaloBtn">Ostalo</button>
+                    </div>
+
+                    <div id="maps">
+                        <!--<div id="map">class="hideLayout"</div>-->
+                        <div>
+                            <div class="mapText">No internet connection or loading map...</div>
+                            <!-- MDL Progress Bar with Indeterminate Progress -->
+                            <div id="p2" class="mdl-progress mdl-js-progress mdl-progress__indeterminate mapText"></div>
+                        </div>
+                    </div>
+
+                    <div id="demo-toast-example" class="mdl-js-snackbar mdl-snackbar">
+                        <div class="mdl-snackbar__text"></div>
+                        <button class="mdl-snackbar__action" type="button"></button>
+                    </div>
+
+                    <div id="statistics" class="hideLayout">
+                        <canvas id="myCanvas"></canvas>
+                    </div>
+                    <div id="about" class="hideLayout">
+
+                    </div>
+
+                    <div class="divDataInput hideLayout">
+                        <form action="/">
+                            <input class="textMiddle" id="headerInput" type="text" name="naslov" readonly="readonly" />
+                            <hr />
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label showInlineTxtInput">
+                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="longitude" name="longitude">
+                                <label class="mdl-textfield__label" for="longitude">Longitude</label>
+                                <span class="mdl-textfield__error">Longitude is not correct!</span>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label showInlineTxtInput">
+                                <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="latitude" name="latitude">
+                                <label class="mdl-textfield__label" for="latitude">Latitude</label>
+                                <span class="mdl-textfield__error">Latitude is not correct!</span>
+                            </div>
+
+                            <div class="divTwoBtn">
+                                <button type="button" id="checkLocation" class="twoButtons btnHeight">
+                                    Check Location
+                                </button>
+                                <button type="button" id="chooseLocation" class="twoButtons btnHeight">
+                                    Choose location
+                                </button>
+                            </div>
+
+                            <hr />
+
+                            <div>
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label procTrajanja">
+                                    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*([0-9]+)?" id="procenaTrajanja" name="procenaTrajanja">
+                                    <label class="mdl-textfield__label" for="procenaTrajanja">Procena trajanja</label>
+                                    <span class="mdl-textfield__error">Input is not a number!</span>
+                                </div>
+
+
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-1">
+                                    <input type="radio" id="option-1" class="mdl-radio__button" name="options" value="1" checked>
+                                    <span class="mdl-radio__label">Minuti</span>
+                                </label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-2">
+                                    <input type="radio" id="option-2" class="mdl-radio__button" name="options" value="2">
+                                    <span class="mdl-radio__label">Sati</span>
+                                </label>
+                                <label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for="option-3">
+                                    <input type="radio" id="option-3" class="mdl-radio__button" name="options" value="3">
+                                    <span class="mdl-radio__label">Dani</span>
+                                </label>
+                            </div>
+
+
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label descriptionTxtInput">
+                                <textarea class="mdl-textfield__input description" type="text" rows="3" id="description" name="description"></textarea>
+                                <label class="mdl-textfield__label" for="description">Description</label>
+                            </div>
+                            <hr />
+                            <!---->
+                            <button id="sbmButton" class="sendButton btnHeight">
+                                Send
+                            </button>
+                        </form>
+                       
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="logInF">
+        <div class="mdl-layout mdl-js-layout mdl-color--grey-100 mdlLayout">
+            <main class="mdl-layout__content layoutContent">
+                <div class="mdl-card mdl-shadoe--6dp">
+                    <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
+                        <h2 class="mdl-card__title-text"> Log in...</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <form action="#">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input textLabel" type="text" id="username" />
+                                <label class="mdl-textfield__label textLabel" for="username">Korisnicko ime</label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input textLabel" type="password" id="userpass" />
+                                <label class="mdl-textfield__label textLabel" for="userpass">Sifra</label>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="content-grid mdl-grid contentGrid">
+                        <div class="mdl-cell mdl-cell--5-col">
+                            <div class="mdl-card__actions mdl-card--border">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdlButton" id="logIn">Log_in</button>
+                            </div>
+                        </div>
+                        <div class="mdl-cell mdl-cell--5-col">
+                            <div class="mdl-card__actions mdl-car--border">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdlButton" id="crtNew">New_acc</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <div id="newUser">
+        <div class="mdl-layout mdl-js-layout mdl-color--grey-100 mdlLayout">
+            <main class="mdl-layout__content layoutContent">
+                <div class="mdl-card mdl-shadoe--6dp">
+                    <div class="mdl-card__title mdl-color--primary mdl-color-text--white">
+                        <h2 class="mdl-card__title-text"> Create new accout</h2>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <form action="/">
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input textLabel" type="text" id="userNm" />
+                                <label class="mdl-textfield__label textLabel" for="userNm">Username</label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input textLabel" type="password" id="passwrd" />
+                                <label class="mdl-textfield__label textLabel" for="passwrd">password</label>
+                            </div>
+                            <div class="mdl-textfield mdl-js-textfield">
+                                <input class="mdl-textfield__input textLabel" type="password" id="reppasswrd" />
+                                <label class="mdl-textfield__label textLabel" for="reppasswrd">retype pass</label>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="content-grid mdl-grid contentGrid">
+                        <div class="mdl-cell mdl-cell--5-col">
+                            <div class="mdl-card__actions mdl-card--border">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdlButton" id="create">Create</button>
+                            </div>
+                        </div>
+                        <div class="mdl-cell mdl-cell--5-col">
+                            <div class="mdl-card__actions mdl-car--border">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent mdlButton" id="cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!--<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>-->
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="bower_components/pikabu/src/pikabu.js"></script>
+    <script type="text/javascript" src="scripts/HideShowCallDiv.js"></script>
+    <!--<script type="text/javascript" src="bower_components/google-maps/index"></script>-->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script type="text/javascript" src="scripts/login.js"></script>
+    <script type="text/javascript" src="scripts/newuser.js"></script>
+    <script type="text/javascript" src="bower_components/socket.io-client/socket.io.js"></script>
+    <script type="text/javascript" src="scripts/canvas.js"></script>
+</body>
+</html>

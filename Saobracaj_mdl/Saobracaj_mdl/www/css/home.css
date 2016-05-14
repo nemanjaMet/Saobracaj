@@ -1,0 +1,111 @@
+﻿.homeButtons {
+    background-color: #32383d; 
+    border: 1px solid white;
+    color: white;   
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    position: relative;
+    width:99%;
+}
+
+#home{
+    background-color: #1e1d1d;
+    width:100%;
+    height: 100%;
+    position:absolute;    
+    z-index: 1000;
+}
+
+.twoDivs{
+    width: 100%;
+    position:relative;
+}
+
+.hideLayout{
+    display: none;
+    width: 100%;
+    height: 100%;
+    position:absolute;
+    background-color: white;
+}
+
+.showInlineTxtInput{
+    width: 45%;
+    margin-left: 2%;
+}
+
+.twoButtons{
+    width: 35%;
+    margin-left: 9%;
+    background-color: #10ae24;
+}
+
+.descriptionTxtInput{
+    position: relative;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.sendButton{
+    width: 50%;
+    margin-left: 25%;
+    background-color:#10ae24;
+}
+
+.mainColour{
+    background-color: darkgray;
+}
+
+#maps{
+    position:absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.mapText{
+  width:100%;
+  display:inline-block;
+  text-align:center;
+}
+
+#statistics{
+  z-index: 1000;
+}
+
+#about{
+     z-index: 1000;
+}
+
+.divDataInput{
+    position:absolute;
+    width:100%;
+    height: 100%;
+    background-color:#ffffff;
+    z-index: 1000;
+}
+
+.textMiddle{
+    /*display: flex;
+    justify-content: center;*/
+    border: none;
+    width: 99%;
+    text-align: center;
+    font-size: x-large;
+    margin: 0px;
+    padding: 0px;
+    background-color: transparent;
+}
+
+.procTrajanja{
+    width: 30%;
+    margin-left: 2%;
+    margin-right: 5%;
+}
+
+#myCanvas{
+    width: 98%;
+}
