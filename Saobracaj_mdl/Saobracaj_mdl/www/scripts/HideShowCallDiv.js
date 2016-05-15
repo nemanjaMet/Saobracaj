@@ -138,7 +138,7 @@ $(document).ready(function () {
             e.preventDefault();
             validateForm(e);
 
-            $.post("http://127.0.0.1:8081/process_post",
+            $.post("https://mosis.herokuapp.com/process_post",
                 {
                     username: $("#usernameHeader").text(),
                     naslov: $(".textMiddle").val(),
@@ -154,13 +154,13 @@ $(document).ready(function () {
                          // $("form").trigger("reset");
                          $(".divDataInput").hide();
                          $("#home").show();
-                         
-                        /* $("#usernameHeader").val("");
+
+                         $("#usernameHeader").val("");
                          $(".textMiddle").val("");
                          $("#longitude").val("");
                          $("#latitude").val("");
                          $("#procenaTrajanja").val("");
-                         $("#description").val("");*/
+                         $("#description").val("");
                          /*MESSAGE BOX TREBA DA JE USPESNO POSLATO!*/
                      }
                  });

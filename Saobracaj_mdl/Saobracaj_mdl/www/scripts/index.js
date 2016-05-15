@@ -105,7 +105,61 @@ function setMap(global) {
 
         var prvobitnaLokacija = true;
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
-        navigator.geolocation.watchPosition(onSuccessWatch, onError);
+
+        var time = 60000;
+        setInterval(ticktack, time);
+
+        function ticktack() {
+            //refreshMyMarker = true;
+            //navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            if (map == null || zahtevBazi) {
+                zahtevBazi = true;
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+            }
+            else {
+                // stare pozicije
+                var lastLat = lastLocation.lat();
+                var lastLon = lastLocation.lng();
+
+                myMarker.setMap(null);
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+
+                var latMin = parseFloat(myPosition.lat()) - 0.005;
+                var latMax = parseFloat(myPosition.lat()) + 0.005;
+                var lonMin = parseFloat(myPosition.lng()) - 0.007;
+                var lonMax = parseFloat(myPosition.lng()) + 0.007;
+
+                // ako smo u blizini nekog dogadjaja izbaci notifikaciju
+                for (var i = 0; i < markers.length; i++) {
+                    var lat = markers[i].getPosition().lat();
+                    var lon = markers[i].getPosition().lng();
+
+                    if (lat > latMin && lat < latMax && lon > lonMin && lon < lonMax) {
+                        alert("Notification! Near event....");
+                        refreshMyMarker = true;
+                        navigator.notification.beep(3);
+                        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                    }
+                }
+
+                // ako je veca razdaljina trazi nove podatke iz baze
+                latMin = lastLat - 0.2;
+                latMax = lastLat + 0.2;
+                lonMin = lastLon - 0.2;
+                lonMax = lastLon + 0.2;
+
+                var currLat = myPosition.lat();
+                var currLon = myPosition.lng();
+
+                if (currLat < latMin || currLat > latMax || currLon < lonMin || currLon > lonMax) {
+                    zahtevBazi = true;
+                    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                }
+
+            }
+        }
+
+        /*navigator.geolocation.watchPosition(onSuccessWatch, onError, { timeout: 60000 });
 
         function onSuccessWatch() {
 
@@ -155,12 +209,11 @@ function setMap(global) {
                 }
 
             }
-        }
+        }*/
 
 
         function onSuccess(position) {
-           // alert("CDV position success");
-
+            // alert("CDV position success");
             var longitude = position.coords.longitude;
             var latitude = position.coords.latitude;
             latLong = new google.maps.LatLng(latitude, longitude);
@@ -186,7 +239,7 @@ function setMap(global) {
                 if (myMarker != null)
                     myMarker.setMap(null);
 
-                $.post("http://127.0.0.1:8081/process_get",
+                $.post("https://mosis.herokuapp.com/process_get",
                  {
                      longitude: longitude,
                      latitude: latitude,
@@ -349,12 +402,11 @@ function setMap(global) {
             }
             // ---------------------------------------------
 
-            if (refreshMyMarker)
-            {
+            if (refreshMyMarker) {
                 placeMarker(latLong, map, 'My location');
                 refreshMyMarker = false;
             }
-                
+
 
             if (prvobitnaLokacija) {
                 $("#longitude").val(longitude);
@@ -388,7 +440,7 @@ function setMap(global) {
                 $(".divDataInput").show();
                 $("#longitude").val(e.latLng.lng());
                 $("#latitude").val(e.latLng.lat());
-               
+
                 prvobitnaLokacija = false;
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);
             });
@@ -463,14 +515,14 @@ var socket;
 
 function clientSide() {
     //var server = require('http').createServer();
-   // var io = require('socket.io')(server);
+    // var io = require('socket.io')(server);
 
-    socket = io.connect("http://127.0.0.1:8081");
+    socket = io.connect("https://mosis.herokuapp.com");
     socket.on('connect', function (data) {
-        socket.emit('send', 'Hello World from client');
+        //socket.emit('send', 'Hello World from client');
     });
 
-    
+
 
     socket.on('messages', function (data) {
         //alert(data);
@@ -480,10 +532,11 @@ function clientSide() {
         var lonMin = parseFloat(myPosition.lng()) - 0.3;
         var lonMax = parseFloat(myPosition.lng()) + 0.3;
 
-        if (data.latitude > latMin && data.latitude < latMax && data.longitude > lonMin && lon < data.longitude) {
-            // alert("Notification!");
-            zahtevBazi = true;
+        if (data.latitude > latMin && data.latitude < latMax && data.longitude > lonMin && data.longitude < lonMax && $("#usernameHeader").text() != data.username) {
+            alert("Notification! New event....");
             navigator.notification.vibrate(2000);
+            navigator.notification.beep(2000);
+            zahtevBazi = true;
         }
 
         /*var latLong = new google.maps.LatLng(43.324491, 21.889756);
