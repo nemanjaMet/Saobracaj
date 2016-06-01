@@ -127,6 +127,7 @@ $(document).ready(function () {
     });
 });
 
+
 $(document).ready(function () {
 
     //$("#sendData").submit(function (event) {
@@ -143,9 +144,9 @@ $(document).ready(function () {
                     username: $("#usernameHeader").text(),
                     naslov: $(".textMiddle").val(),
                     longitude: $("#longitude").val(),
-                    latitude: $("#latitude").val(),
-                    procenaTrajanja: $("#procenaTrajanja").val(),
-                    description: $("#description").val() /*NEKOLIKO KARAKTERA SE NE SALJU!?*/
+                    latitude: $("#latitude").val(),                   
+                    description: $("#description").val(), /*NEKOLIKO KARAKTERA SE NE SALJU!?*/
+                    procenaTrajanja: $("#procenaTrajanja").val()
                 },
                  function (data, status) {
                      //alert("Data: " + data + "\nStatus: " + status);
@@ -162,6 +163,7 @@ $(document).ready(function () {
                          $("#procenaTrajanja").val("");
                          $("#description").val("");
                          /*MESSAGE BOX TREBA DA JE USPESNO POSLATO!*/
+                         refreshData();
                      }
                  });
             e.preventDefault();

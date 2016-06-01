@@ -36,7 +36,7 @@
                 }
                 else {
                     //ovde treba kod za kreiranje novog korisnika!!!!!
-                    $.post("http://127.0.0.1:8081/process_newuser",
+                    $.post("https://mosis.herokuapp.com/process_newuser",
                     {
                         username: usernme,
                         password: pass

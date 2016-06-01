@@ -7,7 +7,7 @@
     -->
     <!---->
     <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: http://127.0.0.1:8081/ http://127.0.0.1:8081/process_post gap: http://127.0.0.1:8081/process_post https://ssl.gstatic.com https://fonts.gstatic.com/ https://maps.googleapis.com/ https://maps.gstatic.com/ https://mts0.googleapis.com/ https://csi.gstatic.com/ 'unsafe-eval'; script-src 'self'  http://127.0.0.1:8081/socket.io https://maps.googleapis.com https://maps.gstatic.com; style-src https://fonts.googleapis.com/ https://fonts.gstatic.com/ 'self' 'unsafe-inline'; media-src *; ">-->
-    <meta http-equiv="Content-Security-Policy" content=" default-src *; style-src 'self' 'unsafe-inline'; script-src * 'self' 'unsafe-inline' 'unsafe-eval'; connect-src * ;">
+    <meta http-equiv="Content-Security-Policy" content=" default-src *; style-src 'self' 'unsafe-inline'; script-src * 'self' 'unsafe-inline' 'unsafe-eval'; connect-src * ;  media-src *;">
     <access origin="*" />
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
@@ -39,7 +39,7 @@
             <button type="button" class="hamburgerButtons" id="homeBtn">Home</button>
             <button type="button" class="hamburgerButtons" id="mapsBtn">Maps</button>
             <button type="button" class="hamburgerButtons" id="statisticsBtn">Guide</button>
-            <button type="button" class="hamburgerButtons" id="aboutBtn">About</button>
+            <!--<button type="button" class="hamburgerButtons" id="aboutBtn">About</button>-->
             <button type="button" class="hamburgerButtons" id="logOut">logOut</button>
         </div>
         <!-- the main page content -->
@@ -109,7 +109,7 @@
                             </div>
 
                             <hr />
-
+                           
                             <div>
                                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label procTrajanja">
                                     <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*([0-9]+)?" id="procenaTrajanja" name="procenaTrajanja">

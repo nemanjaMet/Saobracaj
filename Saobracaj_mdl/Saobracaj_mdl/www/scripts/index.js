@@ -62,6 +62,10 @@ var mapClick = null;
 var markerCheckPos = null;
 var refreshMyMarker = false;
 
+function refreshData() {
+    zahtevBazi = true;
+}
+
 function setLoadMap() {
     loadMap = true;
     setMap(this);
@@ -109,10 +113,18 @@ function setMap(global) {
         var time = 60000;
         setInterval(ticktack, time);
 
+        var time2 = 5000;
+        setInterval(checkNewData, time2);
+
+        function checkNewData() {
+            if (zahtevBazi)
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        }
+
         function ticktack() {
             //refreshMyMarker = true;
             //navigator.geolocation.getCurrentPosition(onSuccess, onError);
-            if (map == null || zahtevBazi) {
+            if (map == null /*|| zahtevBazi*/) {
                 zahtevBazi = true;
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);
             }
@@ -122,6 +134,7 @@ function setMap(global) {
                 var lastLon = lastLocation.lng();
 
                 myMarker.setMap(null);
+                refreshMyMarker = true;
                 navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
                 var latMin = parseFloat(myPosition.lat()) - 0.005;
@@ -135,9 +148,10 @@ function setMap(global) {
                     var lon = markers[i].getPosition().lng();
 
                     if (lat > latMin && lat < latMax && lon > lonMin && lon < lonMax) {
-                        alert("Notification! Near event....");
+                        
                         refreshMyMarker = true;
                         navigator.notification.beep(3);
+                        alert("Notification! Near event....");
                         navigator.geolocation.getCurrentPosition(onSuccess, onError);
                     }
                 }
@@ -250,7 +264,7 @@ function setMap(global) {
                           // alert("ForEach");
                           //counter++;  
 
-                          var description = "Title: " + object.Name + " \n" + "Description: " + object.Description + " \n" + "Time: " + object.TimePeriod;
+                          var description = "User: " + object.Username + " \n" + "Title: " + object.Name + " \n" + "Description: " + object.Description + " \n" + "Time: " + object.TimePeriod;
                           if (object.Name == "Radar") {
                               var marker = new google.maps.Marker({
                                   position: new google.maps.LatLng(object.Latitude, object.Longitude),
@@ -274,6 +288,8 @@ function setMap(global) {
                                     }
                                   );
                               });
+
+                              
                           }
                           else if (object.Name == "Nezgode") {
                               var marker = new google.maps.Marker({
@@ -533,10 +549,12 @@ function clientSide() {
         var lonMax = parseFloat(myPosition.lng()) + 0.3;
 
         if (data.latitude > latMin && data.latitude < latMax && data.longitude > lonMin && data.longitude < lonMax && $("#usernameHeader").text() != data.username) {
+            
+           // navigator.notification.vibrate(2000);
+            navigator.notification.beep(3);
             alert("Notification! New event....");
-            navigator.notification.vibrate(2000);
-            navigator.notification.beep(2000);
-            zahtevBazi = true;
+            //zahtevBazi = true;
+            refreshData();
         }
 
         /*var latLong = new google.maps.LatLng(43.324491, 21.889756);

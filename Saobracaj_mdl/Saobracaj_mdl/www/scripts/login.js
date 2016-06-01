@@ -37,7 +37,7 @@
                     clientSide();
                 }
                 else {
-                    $.post("http://127.0.0.1:8081/process_checkuser",
+                    $.post("https://mosis.herokuapp.com/process_checkuser",
                     {
                         username: usernme,
                         password: pass
